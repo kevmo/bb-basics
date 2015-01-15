@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script></script>
+    <script src="node_modules/underscore/underscore.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/backbone/backbone.js"></script>
+
+</head>
+
+<body>
+
+
+<script>
+
+// Backbone.Model instantiation
+
+  var Todo = Backbone.Model.extend({});
+
+  var todo1 = new Todo({"jigga":"plz"});
+
+  console.log("stringify: ", JSON.stringify(todo1));
+  console.log("BB.Model.toJSON: ", todo1.toJSON());
+
+// Backbone.Model.initialize()
+
+  var Todo2 = Backbone.Model.extend({
+    initialize: function(){
+      console.log("Called upon model instantiation.");
+    }
+  });
+
+  var todo2 = new Todo2();
+
+  // Backbone.Model.defaults
+  // give your model default values in case your user
+  // doesn't
+
+  var Todo3 = Backbone.Model.extend({
+
+    defaults: {
+      GOAT: "TSwift"
+    }
+  });
+
+  var todo3 = new Todo3({});
+  console.log("default: ", JSON.stringify(todo3));
+
+  var todo3 = new Todo3({GOAT: "kevmo"});
+  console.log("default: ", JSON.stringify(todo3));
+
+
+  // Backbone.Model getter and setter functions
+
+  // Backbone.Model.get('key')
+
+   console.log("getter: ", todo3.get('GOAT'));
+
+   // Backbone.Model.set takes a hash containing 1 or more attributes.
+  // Setting an attribute triggers a "change:attr" event.
+
+   todo3.set({"rando": "people at a bar", "sup": false})
+
+  // Use Backbone.Model.toJSON to clone a model's data attributes
+  // toJSON returns an *object*, you must stringify it if you want actual JSON
+
+  var copy = todo3.toJSON();
+  console.log("COPY: ", copy);
+  console.log("Stringified: ", JSON.stringify(copy));
+
+  // Backbone.Model.attributes = internal hash containing
+  // the state of the model
+  // - setting a model through .attributes bypasses event triggers.
+  // - passing {silent:true} on change silences all changes?
+
+  var todo30 = new Todo3({"beef": "gravy", "chicken":"wing"});
+
+  console.log("Attributes: ", todo30.attributes);
+
+  // CONTROLLER: LISTENING FOR CHANGES ON YOUR MODEL
+  // One way: Bind a listener to your model in the initialize() function
+
+  var Todo4 = Backbone.Model.extend({
+      defaults: {
+          trill: false,
+          name: ""
+      },
+
+      initialize: function(){
+          console.log("This runs whenever a Todo4 model is initialized.");
+          this.on('change', function(){console.log("Something changed.")});
+          this.on('change:name', function(){
+              console.log("Name changed to ", this.get('name'));
+          });
+          this.on('change:trill', function(){
+              console.log("TRiLL reCoGnIze TRILL? ", this.attributes.trill);
+          })
+      }
+  });
+
+  var todo4 = new Todo4();
+  todo4.set({"name": "kevmo", "trill": true});
+
+  // Backbone.Model.validate()
+  // by default, occurs during .save() or when
+  // .set() is called if {validate:true} is passed
+
+  var Person = Backbone.Model.extend({
+
+      defaults: {
+        name: "kevmo"
+      },
+
+      initialize: function(){
+          console.log("initializing person");
+          this.on('invalid', function(model, error){
+              console.log("INVALID!");
+              console.log("ERROR", error);
+          });
+      },
+      validate: function (attrs){
+          if (!attrs.name){
+              console.log("Need a fuckin name, son!");
+              return "NOPE";
+          } else {
+            console.log("Validated!");
+            return "YEP";
+          }
+      }
+  });
+
+    var person = new Person();
+
+    person.unset('name', {validate: true});
+
+
+
+</script>
+</body>
+
+</html>
