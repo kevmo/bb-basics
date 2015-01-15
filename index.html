@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script></script>
+    <script src="node_modules/underscore/underscore.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/backbone/backbone.js"></script>
+
+</head>
+
+<body>
+
+
+<script>
+
+// Backbone.Model instantiation
+
+  var Todo = Backbone.Model.extend({});
+
+  var todo1 = new Todo({"jigga":"plz"});
+
+  console.log("stringify: ", JSON.stringify(todo1));
+  console.log("BB.Model.toJSON: ", todo1.toJSON());
+
+// Backbone.Model.initialize()
+
+  var Todo2 = Backbone.Model.extend({
+    initialize: function(){
+      console.log("Called upon model instantiation.");
+    }
+  });
+
+  var todo2 = new Todo2();
+
+  // Backbone.Model.defaults
+  // give your model default values in case your user
+  // doesn't
+
+  var Todo3 = Backbone.Model.extend({
+
+    defaults: {
+      GOAT: "TSwift"
+    }
+  });
+
+  var todo3 = new Todo3({});
+  console.log("default: ", JSON.stringify(todo3));
+
+  var todo3 = new Todo3({GOAT: "kevmo"});
+  console.log("default: ", JSON.stringify(todo3));
+
+
+  // Backbone.Model getter and setter functions
+
+</script>
+</body>
+
+</html>
