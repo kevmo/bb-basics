@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script></script>
+    <script src="node_modules/underscore/underscore.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/backbone/backbone.js"></script>
+
+</head>
+
+<body>
+
+  <div id="footer"></div>
+
+<script>
+
+// BACKBONE.VIEW
+// --------------------
+//
+
+
+var TodoView = Backbone.View.extend({
+
+  // All views must have an "el".
+  // Use it to compose content, then insert into DOM.
+  // 2 ways to associate: create anew or reference
+  // an element already on the page.
+  // (1) To create anew, set ANY combination of the following
+  // properites on the View: tagName, id, className
+  // --> BB will create the new el and you can reference
+  // it at the el property. If you set it to nothing,
+  // tagName defaults to 'div'.
+
+  tagName: 'li',
+  className: 'container',
+  id: 'todos',
+
+  // cache the template function
+  todoTpl: _.template("<%= kev %>"),
+
+  events: {
+    'dblclick label': 'edit',
+    'keypress .edit': 'updateOnEnter',
+    'blur .edit': 'close'
+  },
+
+  initialize: function(options){
+    this.options = options || {};
+    console.log ("Brrr brrr brr");
+    this.render();
+  },
+
+  // BB makes this.$el reference a jquery
+  // obj wrapped around our el.
+
+  render: function(){
+    console.log("model: ",this.model);
+    this.$el.html( this.todoTpl(this.model.attributes));
+    this.input = this.$('.edit');
+    // Convention to 'return this' in a render. Useful:
+    // - makes views reusable in parent views
+    // - create a list of els without rendering
+    return this;
+  },
+
+  edit: function(){},
+  close: function(){},
+  updateOnEnter: function(){}
+});
+
+// for convenience
+var MockModel = Backbone.Model.extend({});
+var mockModel = new MockModel({kev:"mo"});
+
+// when you instantiate the view, pass it a hash
+// with a "model" key
+var todoView = new TodoView({model:mockModel});
+
+console.log ("ellllo:", todoView.el);
+
+//---------------------------------------------
+
+var FooterView = Backbone.View.extend({
+
+  // (2) Another way to associate an el is by setting
+  // it equal to an existing DOM element using CSS selector
+
+  el: "#footer"
+
+})
+
+
+</script>
+
+
+</body>
+
+</html>
