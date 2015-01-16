@@ -38,22 +38,33 @@ var TodoView = Backbone.View.extend({
   // cache the template function
   todoTpl: _.template("<%= kev %>"),
 
+  // attach event listeners to either el-relative custom
+  // selectors or directly to el if no selector is provided.
+  // - Takes the form 'eventName selector': 'callbackFunction'
+  // - any string callback referenced in the events attr must
+  //   be defined within the scope of your view
   events: {
     'dblclick label': 'edit',
     'keypress .edit': 'updateOnEnter',
     'blur .edit': 'close'
   },
+  // ^^^^^^
+  // you can also bind methods using
+  // _.bind(this.viewEvent, this) in initialize
+  // (partial application)
 
   initialize: function(options){
     this.options = options || {};
     console.log ("Brrr brrr brr");
     this.render();
+    this.model.bind('change', _.bind(this.render, this));
   },
 
   // BB makes this.$el reference a jquery
   // obj wrapped around our el.
 
   render: function(){
+    console.log("WE AT IT AGAIN");
     console.log("model: ",this.model);
     this.$el.html( this.todoTpl(this.model.attributes));
     this.input = this.$('.edit');
