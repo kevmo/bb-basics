@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html>
+
 <head>
     <script></script>
     <script src="node_modules/underscore/underscore.js"></script>
@@ -45,6 +44,48 @@ console.log("Collection size should be 2: ", todos.length);
 
 todos.remove(todo1);
 console.log("Collection size should be 1: ", todos.length);
+
+// Backbone Collectiosn can listen for add + remove events
+
+// use the 'on' event mixin
+
+todos.on("add", function (todo){
+    console.log ("Added a model: ", todo.toJSON());
+});
+
+todo3 = new Todo({'title': 'eat your ham', completed: true});
+
+todos.add([todo3, todo1]);
+
+// can also listen for changes in any of the models
+
+todos.on('change:title', function(todo){
+    console.log("Title changed: ", todo.get('title'));
+    todos.trigger('trill');
+});
+
+//playing with event triggerin' for a sec
+todos.on('trill', function(){
+    console.log("trill recognize trill! ");
+})
+
+todo2.set({'title': 'Tiiiina'});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
