@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script></script>
+    <script src="node_modules/underscore/underscore.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/backbone/backbone.js"></script>
+
+</head>
+
+<body>
+
+  <div id="footer"></div>
+
+<script>
+
+// BACKBONE.COLLECTION
+// --------------------
+//
+
+var Todo = Backbone.Model.extend({
+    defaults: {
+        title: '',
+        completed: false
+    }
+});
+
+var TodosCollection = Backbone.Collection.extend({
+    model: Todo
+});
+
+var todo1 = new Todo({title:"I knew u were trouble", id: 2});
+var todo2 = new Todo({title:"when u walked in", id: 3});
+
+
+var todos = new TodosCollection([todo1]);
+
+console.log("Collection size should be 1: ", todos.length);
+
+// .add() and .remove()
+// both accept individual models and arrays of models
+
+todos.add(todo2);
+console.log("Collection size should be 2: ", todos.length);
+
+todos.remove(todo1);
+console.log("Collection size should be 1: ", todos.length);
+
+
+
+
+</script>
+</body>
