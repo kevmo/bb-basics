@@ -72,6 +72,45 @@ todos.on('trill', function(){
 todo2.set({'title': 'Tiiiina'});
 
 
+// Can also map events with a single on by passing
+// a jQuery style has in the form of:
+// obj.on({'event': 'callback', 'event2': 'callback2'})
+
+// this is the most hacked up shit, don't do it like this,
+// put the event listeners on the class object
+
+_.extend(todos, {
+    callback1: function(){
+        console.log('We at it again!')
+    }
+})
+
+todos.spermwhale = function(){
+    console.log('IS ANYONE HERE A MARINE BIOLOGIST');
+};
+
+
+todos.on({
+    'trouble' : todos.callback1,
+    'krill' : todos.spermwhale
+});
+
+todos.trigger('trouble');
+todos.trigger('krill');
+
+// Backbone events include "once"
+// just like "on", but it's removed once called
+
+
+
+
+
+
+
+
+
+
+
 
 
 
