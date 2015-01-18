@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script></script>
+    <script src="node_modules/underscore/underscore.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/backbone/backbone.js"></script>
+
+</head>
+
+<body>
+
+
+<script>
+
+// Backbone.Events is mixed into:
+// - Backbone
+// - Backbone.Model
+// - Backbone.Collection
+// - Backbone.Router
+// - Backbone.History
+// - Backbone.View
+
+// Since its mixed into Backbone itself,
+// BB can be a simple events bus:
+
+Backbone.on('event', function(e){
+  console.log('An event occurred: ', e); // doesn't work
+});
+
+Backbone.trigger("event");
+
+// Backbone can mix into ANY object
+
+var cow = {};
+
+_.extend(cow, Backbone.Events);
+
+cow.on('noise', function(){
+  console.log("MOOOOO");
+});
+
+cow.trigger('noise');
+
+// there is a special 'all' event
+
+cow.on('all', function(){
+  console.log("Should be triggered for any cow event.");
+});
+
+
+</script>
+
+</body>
+
+</html>
