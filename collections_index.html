@@ -28,8 +28,8 @@ var TodosCollection = Backbone.Collection.extend({
     model: Todo
 });
 
-var todo1 = new Todo({title:"I knew u were trouble", id: 2});
-var todo2 = new Todo({title:"when u walked in", id: 3});
+var todo1 = new Todo({title:"I knew u were trouble", id: 2, completed:false});
+var todo2 = new Todo({title:"when u walked in", id: 3, completed: true});
 
 
 var todos = new TodosCollection([todo1]);
@@ -101,7 +101,28 @@ todos.trigger('krill');
 // Backbone events include "once"
 // just like "on", but it's removed once called
 
+// You can reset a collection
 
+console.log("Should not be 0: ", todos.length);
+todos.reset();
+console.log("Should be 0 upon empty reset: ", todos.length);
+todos.reset([todo1, todo2, todo3]);
+console.log("Should be 3: ", todos.length);
+
+// can use .update() for a smart updating
+
+// 20+ underscore methods available
+
+// syntactic sugar: chain() --> returns an object
+// that has all of the underscore array methods
+// attached as methods *which return the object*, thus
+// allowing you to again call an object
+
+var trueTodos = todos.chain()
+                    .filter(function(todo){return todo.get('completed')})
+                    .map(function(item){return item.get('title');})
+                    .value();
+console.log(trueTodos);
 
 
 
