@@ -9,8 +9,6 @@
 </head>
 
 <body>
-
-
 <script>
 
 // Backbone.Events is mixed into:
@@ -40,14 +38,44 @@ cow.on('noise', function(){
   console.log("MOOOOO");
 });
 
-cow.trigger('noise');
-
 // there is a special 'all' event
 
 cow.on('all', function(){
   console.log("Should be triggered for any cow event.");
+  // off removes callback functions previous bound to an object
+  // - in the publish/suscribe pattern, it = unsubscribe
+  cow.off('all');
 });
 
+cow.trigger('noise');
+
+// "on" and "off" add cbs directly to an observed object.
+// "listenTo()" tells an object to listen for events on another
+// object.
+
+var a = _.extend({}, Backbone.Events),
+    b = _.extend({}, Backbone.Events),
+    c = _.extend({}, Backbone.Events);
+
+a.listenTo(b, 'trill', function(e){
+  console.log("You'll only see this once -- A heard an event on b: ", e)
+});
+
+b.trigger('trill');
+
+a.stopListening();
+
+b.trigger('trill');
+
+// You should try to remove views and their corresponding models
+// at the same time. If you remove a view, but not the model...
+// the model will will still have a reference to the views callback
+// function and teh garbage collector cannot remove the view from
+// memory. This creates memory leaks.
+// Pretty much every "on" called on an object requires and "off"
+// to be called for the garbage collector to do its job.
+// "listenTo()" changes that, allowing Views to bind to Model and
+// unbind with "stopListening()" - a single call
 
 </script>
 
